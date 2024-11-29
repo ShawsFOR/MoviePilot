@@ -47,7 +47,7 @@ body, #app, .v-application {
 /*}*/
 
 .v-switch__thumb.bg-primary, .v-switch__track.bg-primary { 
-    background-color: #00d130 !important; /* 修改为你想要的颜色，例如绿色 */ 
+    background-color: #7D34FD !important; /* 修改为你想要的颜色，例如紫色 */ 
 }
 /* 设置开启后的开关和滑轨颜色 */
 
