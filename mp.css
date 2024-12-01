@@ -46,10 +46,10 @@ body, #app, .v-application {
 /*    border-radius: 10px;*/
 /*}*/
 
-.v-switch__thumb.bg-primary, .v-switch__track.bg-primary { 
-    background-color: #7D34FD !important; /* 修改为你想要的颜色，例如紫色 */ 
+.v-switch__thumb.bg-primary, .v-switch__track.bg-primary, .v-progress-linear__determinate.bg-primary { 
+    background-color: #7D34FD !important; /* 修改为你想要的颜色，例如绿色 */ 
 }
-/* 设置开启后的开关和滑轨颜色 */
+/* 设置开启后的开关\滑轨\首页进度条颜色 */
 
 .v-application, .v-card--variant-elevated, .v-list {
     background: none !important;
