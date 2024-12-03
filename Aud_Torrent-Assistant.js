@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         aud-Torrent-Assistant
+// @name         Aud-Torrent-Assistant
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
-// @description  观众审种助手
+// @version      1.0.1
+// @description  观众种审助手
 // @author       Shawson
 // @match        http*://audiences.me/details.php*
 // @icon         https://audiences.me/favicon.ico
-// @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js
+// @require      https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/jquery/3.5.1/jquery.min.js
 // @grant        none
 // @license      MIT
 // @downloadURL https://update.greasyfork.org/scripts/467002/Hddolby-Torrent-Assistant.user.js
