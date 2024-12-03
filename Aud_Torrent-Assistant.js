@@ -606,7 +606,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
             if (rowfollowElement && rowfollowElement.classList.contains('rowfollow')) {
                 // 需要加粗放大的关键词数组
                 var keywords = [
-                    "Chinese", "Cantonese", "Mandarin","Scan type","Interlaced","Progressive",
+                    "Chinese", "Cantonese", "Mandarin","Scan type","Interlaced","Progressive","720p","1080p","1080i","2160p",
                     "DTS-HD Master Audio","Dolby TrueHD/Atmos","DTS:X","DTS","TrueHD","OPUS", "LPCM","AAC","FLAC","APE","WAV","MP3","M4A",
                     "Dolby Vision","HDR10\\+", "HDR10", "HEVC","x265","H.265","AVC","x264","H.264","VC-1","MPEG-2","MPEG","Version 2","AV1",
                     "简中", "繁中", "简体中文","繁体中文", "简英", "繁英", "粤","国语"
