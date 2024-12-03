@@ -153,7 +153,10 @@
     let title_warn_no = 0;
 
 // medium
-if (title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) {
+if (title_lowercase.indexOf("remux") !== -1) {
+    // REMUX 优先级最高
+    title_type = 3;
+} else if (title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) {
     // UHD Blu-ray 原盘
     title_type = 12;
 } else if (title_lowercase.indexOf("uhd blu-ray") !== -1 && title_lowercase.indexOf("diy") !== -1) {
@@ -170,9 +173,6 @@ if (title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uh
 }else if (title_lowercase.indexOf("bluray") !== -1 && title_lowercase.indexOf("diy") !== -1) {
     // Blu-ray DIY
     title_type = 14;
-} else if (title_lowercase.indexOf("remux") !== -1) {
-    // REMUX 优先级最高
-    title_type = 3;
 } else if (title_lowercase.indexOf("x264") !== -1 || title_lowercase.indexOf("x265") !== -1) {
     // x264 x265 优先级次之
     title_type = 15;  // Encode
@@ -247,7 +247,7 @@ if (title_lowercase.indexOf("dts-hd") !== -1 || title_lowercase.indexOf("dtshd")
     title_audio = 21;  // LPCM
 } else if (title_lowercase.indexOf("dts") !== -1) {
     title_audio = 3;  // DTS
-} else if (title_lowercase.indexOf("ddp") !== -1 || title_lowercase.indexOf("eac3") !== -1 || title_lowercase.indexOf("dd+") !== -1) {
+} else if (title_lowercase.indexOf("ddp") !== -1 || title_lowercase.indexOf("eac3") !== -1 || title_lowercase.indexOf("dd+") !== -1 || title_lowercase.indexOf("dd") !== -1) {
     title_audio = 18;  // DD/AC3 (E-AC-3)
 } else if (title_lowercase.indexOf("ac3") !== -1 || title_lowercase.indexOf("ac-3") !== -1 || title_lowercase.indexOf("dd1") !== -1 || title_lowercase.indexOf("dd2") !== -1 || title_lowercase.indexOf("dd5") !== -1 || title_lowercase.indexOf("dd.2") !== -1 || title_lowercase.indexOf("dd 5.1") !== -1 || title_lowercase.indexOf("dd.5") !== -1) {
     title_audio = 18;  // DD/AC3
@@ -588,8 +588,8 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
             var rowfollowElement = rowheadElement.nextElementSibling;
             if (rowfollowElement && rowfollowElement.classList.contains('rowfollow')) {
                 // 设置初始字体大小
-                rowheadElement.style.fontSize = '24px';
-                rowfollowElement.style.fontSize = '24px';
+                rowheadElement.style.fontSize = '16px';
+                rowfollowElement.style.fontSize = '16px';
             } else {
                 console.warn('未找到 .rowhead.nowrap 元素后面的 .rowfollow 元素');
             }
