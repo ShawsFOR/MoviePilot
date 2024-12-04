@@ -225,6 +225,10 @@ if ((title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("u
     title_type = 13;
     console.warn('检测到 UHD Blu-ray 和 DIY 组合，媒介类型设置为 13');
 }
+else if ((title_lowercase.indexOf("blu-ray") !== -1 || title_lowercase.indexOf("bluray") !== -1) && subtitle_lowercase.indexOf("diy") !== -1) {
+    title_type = 14;
+    console.warn('检测到 UHD Blu-ray 和 DIY 组合，媒介类型设置为 13');
+}
 
    // codec
 if (title_lowercase.indexOf("x264") !== -1
@@ -387,10 +391,10 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     // 媒介类型
                     for (const key in type_constant) {
                         if (Object.hasOwnProperty.call(type_constant, key)) {
-                            if (word.includes('uhd blu-ray') && word.includes('diy')) {
+                            if (word.includes('UHD Blu-ray DIY')) {
                                 type = 13; // UHD Blu-ray DIY
                                 break;
-                            } else if (word.includes('uhd blu-ray') && !word.includes('diy')) {
+                            } else if (word.includes('UHD Blu-ray')) {
                                 type = 12; // UHD Blu-ray 原盘
                                 break;
                             } else if (word.includes(type_constant[key])) {
