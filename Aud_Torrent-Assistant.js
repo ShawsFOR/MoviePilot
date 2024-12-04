@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Aud-Torrent-Assistant
 // @namespace    http://tampermonkey.net/
-// @version      1.0.3
+// @version      1.0.9
 // @description  观众种审助手
 // @author       Shawson
 // @match        http*://audiences.me/details.php*
@@ -152,35 +152,39 @@
     /**标题_未检测到警告 (NOTE: 使用位运算标记) */
     let title_warn_no = 0;
 
-// medium
 if (title_lowercase.indexOf("remux") !== -1) {
     // REMUX 优先级最高
     title_type = 3;
-} else if (title_lowercase.indexOf("uhd blu-ray") !== -1 && title_lowercase.indexOf("diy") !== -1) {
+} else if ((title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) && title_lowercase.indexOf("diy") !== -1) {
     // UHD Blu-ray DIY
     title_type = 13;
-} else if (title_lowercase.indexOf("uhd bluray") !== -1 && title_lowercase.indexOf("diy") !== -1) {
-    // UHD Blu-ray DIY
-    title_type = 13;
-} else if (title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) {
-    // UHD Blu-ray 原盘
-    title_type = 12;
-} else if (title_lowercase.indexOf("blu-ray") !== -1 && title_lowercase.indexOf("diy") !== -1) {
-    // Blu-ray DIY
-    title_type = 14;
-}else if (title_lowercase.indexOf("bluray") !== -1 && title_lowercase.indexOf("diy") !== -1) {
-    // Blu-ray DIY
-    title_type = 14;
-} else if (title_lowercase.indexOf("blu-ray") !== -1) {
-    title_type = 1;  // Blu-ray 原盘
-} else if (title_lowercase.indexOf("x264") !== -1 || title_lowercase.indexOf("x265") !== -1) {
-    // x264 x265 优先级次之
+} else if ((title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) && (title_lowercase.indexOf("x264") !== -1 || title_lowercase.indexOf("x265") !== -1)) {
+    // UHD Blu-ray + x264/x265
     title_type = 15;  // Encode
     if (title_lowercase.indexOf("x264") !== -1) {
         title_resolution = 1;  // H.264(AVC)
     } else if (title_lowercase.indexOf("x265") !== -1) {
         title_resolution = 6;  // H.265(HEVC)
     }
+} else if (title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) {
+    // UHD Blu-ray 原盘
+    title_type = 12;
+} else if ((title_lowercase.indexOf("blu-ray") !== -1 || title_lowercase.indexOf("bluray") !== -1) && title_lowercase.indexOf("diy") !== -1) {
+    // Blu-ray DIY
+    title_type = 14;
+} else if ((title_lowercase.indexOf("blu-ray") !== -1 || title_lowercase.indexOf("bluray") !== -1) && (title_lowercase.indexOf("x264") !== -1 || title_lowercase.indexOf("x265") !== -1)) {
+    // Blu-ray + x264/x265
+    title_type = 15;  // Encode
+    if (title_lowercase.indexOf("x264") !== -1) {
+        title_resolution = 1;  // H.264(AVC)
+    } else if (title_lowercase.indexOf("x265") !== -1) {
+        title_resolution = 6;  // H.265(HEVC)
+    }
+} else if (title_lowercase.indexOf("blu-ray") !== -1 || title_lowercase.indexOf("bluray") !== -1) {
+    title_type = 1;  // Blu-ray 原盘
+} else if (title_lowercase.indexOf("webrip") !== -1 || title_lowercase.indexOf("web-rip") !== -1 || title_lowercase.indexOf("dvdrip") !== -1 || title_lowercase.indexOf("bdrip") !== -1) {
+    // x264 x265 优先级次之
+    title_type = 15;  // Encode
 } else if (title_lowercase.indexOf("hdtv") !== -1) {
     // HDTV 放在 UHD 之前
     title_type = 5;
@@ -188,9 +192,6 @@ if (title_lowercase.indexOf("remux") !== -1) {
     title_type = 2;  // DVD 原盘
 } else if (title_lowercase.indexOf("web-dl") !== -1 || title_lowercase.indexOf("webdl") !== -1 || title_lowercase.indexOf("web") !== -1) {
     title_type = 10;  // WEB-DL
-// } else if ((title_lowercase.indexOf("bluray") != -1 || title_lowercase.indexOf("blu-ray") != -1) && (title_lowercase.indexOf("hevc") != -1 || title_lowercase.indexOf("avc") != -1)) {
-//     // 同时存在 bluray 和 hevc/avc 则为 bluray
-//     title_type = 1;  // Blu-ray 原盘
 } else if (title_lowercase.indexOf("webrip") !== -1) {
     title_type = 7;  // WEB-DL
 } else if (title_lowercase.indexOf("dvd") !== -1) {
@@ -203,6 +204,27 @@ if (title_lowercase.indexOf("remux") !== -1) {
     title_warn_no += 1;
 }
 
+// 定义和初始化副标题
+let subtitle_lowercase = ""; // 副标题初始化
+
+// 查找副标题
+document.querySelectorAll('.rowhead.nowrap').forEach(function(rowheadElement) {
+    if (rowheadElement.textContent.includes("副标题")) {
+        let rowfollowElement = rowheadElement.nextElementSibling;
+        if (rowfollowElement && rowfollowElement.classList.contains('rowfollow')) {
+            subtitle_lowercase = rowfollowElement.textContent.toLowerCase();
+            console.log('副标题: ', subtitle_lowercase);
+        } else {
+            console.warn('未找到副标题 .rowhead.nowrap 元素后面的 .rowfollow 元素');
+        }
+    }
+});
+
+// 检查主标题和副标题的组合
+if ((title_lowercase.indexOf("uhd blu-ray") !== -1 || title_lowercase.indexOf("uhd bluray") !== -1) && subtitle_lowercase.indexOf("diy") !== -1) {
+    title_type = 13;
+    console.warn('检测到 UHD Blu-ray 和 DIY 组合，媒介类型设置为 13');
+}
 
    // codec
 if (title_lowercase.indexOf("x264") !== -1
@@ -234,12 +256,13 @@ if (title_lowercase.indexOf("x264") !== -1
 }
 
 
-   // audiocodec
-if (title_lowercase.indexOf("dts-hd") !== -1 || title_lowercase.indexOf("dtshd") !== -1) {
+// audiocodec
+if (title_lowercase.indexOf("dts-hd ma") !== -1 || title_lowercase.indexOf("dtshd") !== -1) {
     title_audio = 19;  // DTS-HD MA
 } else if (title_lowercase.indexOf("dts-x") !== -1 || title_lowercase.indexOf("dts:x") !== -1) {
     title_audio = 25;  // DTS:X
-} else if (title_lowercase.indexOf("truehd atmos") !== -1) {
+} else if (title_lowercase.indexOf("truehd atmos") !== -1 || title_lowercase.indexOf("truehd 7.1 atmos") !== -1  || title_lowercase.indexOf("atmos truehd 7.1") !== -1
+          || title_lowercase.indexOf("atmos truehd7.1") !== -1 || title_lowercase.indexOf("truehd 7.1") !== -1 || title_lowercase.indexOf("truehd7.1") !== -1) {
     title_audio = 26;  // TrueHD Atmos
 } else if (title_lowercase.indexOf("truehd") !== -1) {
     title_audio = 20;  // TrueHD
@@ -283,7 +306,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
     title_resolution = 2;  // 1080i
 } else if (title_lowercase.indexOf("720p") !== -1) {
     title_resolution = 3;  // 720p
-} else if (title_lowercase.indexOf("sd") !== -1 || title_lowercase.indexOf("480i") !== -1) {
+} else if (title_lowercase.indexOf("sd") !== -1 || title_lowercase.indexOf("480i") !== -1 || title_lowercase.indexOf("480p") !== -1) {
     title_resolution = 4;  // SD
 } else {
     title_resolution = 11;  // None
@@ -364,8 +387,11 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     // 媒介类型
                     for (const key in type_constant) {
                         if (Object.hasOwnProperty.call(type_constant, key)) {
-                            if (word.includes('UHD Blu-ray')) {
-                                type = 12;
+                            if (word.includes('uhd blu-ray') && word.includes('diy')) {
+                                type = 13; // UHD Blu-ray DIY
+                                break;
+                            } else if (word.includes('uhd blu-ray') && !word.includes('diy')) {
+                                type = 12; // UHD Blu-ray 原盘
                                 break;
                             } else if (word.includes(type_constant[key])) {
                                 type = Number(key);
@@ -376,6 +402,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     // 防重复处理
                     if (word.includes('HD DVD')) type = 4;
                 }
+
                 // NOTE: 修复bug, 编码和音频编码之前是有重合的, 加了一个防止重合产生
                 if (word.includes('编码') && !word.includes('音频编码')) {
                     // 视频编码
@@ -392,7 +419,10 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     // 音频编码
                     for (const key in audio_constant) {
                         if (Object.hasOwnProperty.call(audio_constant, key)) {
-                            if (word.includes(audio_constant[key])) {
+                            if (word.includes('TrueHD Atmos')) {
+                                audio = 26; // 确保优先识别 TrueHD Atmos
+                                break;
+                            } else if (word.includes(audio_constant[key])) {
                                 audio = Number(key);
                                 break;
                             }
@@ -402,6 +432,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     if (word.includes('DTS-HD MA')) audio = 19;
                     if (word.includes('DTS-X')) audio = 25;
                 }
+
                 if (word.includes('分辨率')) {
                     // 分辨率
                     for (const key in resolution_constant) {
@@ -485,7 +516,10 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
     $('#outer').prepend(errorDom);
 
     if (/[^\x00-\xff]+/g.test(title)) {
-        $('#assistant-tooltips').append('主标题包含中文或中文字符<br>');
+        // 检查标题中是否包含中文或中文字符
+        var match = title.match(/[^\x00-\xff]+/g);
+        // 将匹配到的中文或中文字符打印出来
+        $('#assistant-tooltips').append(`主标题包含中文或中文字符: ${match.join(' ')}<br>`);
         error = true;
     }
 
@@ -591,7 +625,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                 rowheadElement.style.fontSize = '16px';
                 rowfollowElement.style.fontSize = '16px';
             } else {
-                console.warn('未找到 .rowhead.nowrap 元素后面的 .rowfollow 元素');
+                console.warn('未找到基本信息 .rowhead.nowrap 元素后面的 .rowfollow 元素');
             }
         }
     });
@@ -611,9 +645,9 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     // 需要加粗放大的关键词数组
                     var keywords = [
                         "Chinese", "Cantonese", "Mandarin", "Scan type", "Interlaced", "Progressive", "480i","720p", "1080p", "1080i", "2160p","4320p",
-                        "DTS-HD Master Audio", "Dolby TrueHD/Atmos", "DTS:X", "DTS", "TrueHD", "OPUS", "LPCM", "AAC", "FLAC", "APE", "WAV", "MP3", "M4A",
+                        "DTS-HD Master Audio","TrueHD Atmos", "Dolby TrueHD/Atmos", "DTS:X", "DTS", "TrueHD", "OPUS", "LPCM", "AAC", "FLAC", "APE", "WAV", "MP3", "M4A","E-AC-3",
                         "Dolby Vision", "HDR10\\+", "HDR10", "HEVC", "x265", "H.265", "AVC", "x264", "H.264", "VC-1", "MPEG-2", "MPEG", "Version 2", "AV1",
-                        "简中", "繁中", "简体中文", "繁体中文", "简英", "繁英", "粤", "国语"
+                        "简中", "繁中", "简体中文", "繁体中文", "简英", "繁英", "粤语","粤", "国语"
                     ];
 
                     // 获取 showElement 的 HTML 内容
@@ -632,7 +666,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     showElement.innerHTML = contentHtml;
                 });
             } else {
-                console.warn('未找到 .rowhead.nowrap 元素后面的 .rowfollow 元素');
+                console.warn('未找到简介 .rowhead.nowrap 元素后面的 .rowfollow 元素');
             }
         }
     });
