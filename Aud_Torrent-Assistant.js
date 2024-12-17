@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Aud-Torrent-Assistant
 // @namespace    http://tampermonkey.net/
-// @version      1.0.9
+// @version      1.0.9.6
 // @description  观众种审助手
 // @author       Shawson
 // @match        http*://audiences.me/details.php*
@@ -233,12 +233,14 @@ else if ((title_lowercase.indexOf("blu-ray") !== -1 || title_lowercase.indexOf("
    // codec
 if (title_lowercase.indexOf("x264") !== -1
     || title_lowercase.indexOf("h264") !== -1
+    || title_lowercase.indexOf("h 264") !== -1
     || title_lowercase.indexOf("h.264") !== -1
     || title_lowercase.indexOf("avc") !== -1
 ) {
     title_encode = 1;  // H.264(AVC)
 } else if (title_lowercase.indexOf("x265") !== -1
     || title_lowercase.indexOf("h265") !== -1
+    || title_lowercase.indexOf("h 265") !== -1
     || title_lowercase.indexOf("h.265") !== -1
     || title_lowercase.indexOf("hevc") !== -1
 ) {
@@ -426,6 +428,9 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                             if (word.includes('TrueHD Atmos')) {
                                 audio = 26; // 确保优先识别 TrueHD Atmos
                                 break;
+                            } else if (word.includes('DTS:X')) {
+                                audio = 25; // DTS:X
+                                break;
                             } else if (word.includes(audio_constant[key])) {
                                 audio = Number(key);
                                 break;
@@ -434,7 +439,6 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     }
                     // 防重复处理
                     if (word.includes('DTS-HD MA')) audio = 19;
-                    if (word.includes('DTS-X')) audio = 25;
                 }
 
                 if (word.includes('分辨率')) {
@@ -582,6 +586,47 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
         error = true;
     }
 
+    // 不信的制作组关键词数组
+var untrustworthyKeywords = [
+    "fgt", "hao4k", "mp4ba", "rarbg", "gpthd",
+    "seeweb", "dreamhd", "blacktv", "xiaomi",
+    "huawei", "momohd", "ddhdtv", "nukehd",
+    "tagweb", "sonyhd", "minihd", "bitstv",
+    "-alt", "rarbg", "mp4ba", "fgt", "hao4k",
+    "batweb", "dbd-raws", "xunlei", "gamehd",
+    "zerotv", "lelvetv", "bestweb", "enttv", "hottv"
+];
+var untrustworthyKeywords1 = [
+    "CTRLWEB", "CTRLHD"
+];
+
+// 检查是否包含任何不信的制作组关键词 (从 title_lowercase 判断)
+var foundKeyword = untrustworthyKeywords.find(function(keyword) {
+    return title_lowercase.includes(keyword);
+});
+
+// 检查是否包含任何不信的制作组关键词1 (从 title 判断)
+var foundKeyword1 = untrustworthyKeywords1.find(function(keyword) {
+    return title.includes(keyword);
+});
+
+// 提示信息
+if (foundKeyword) {
+    // 获取在标题中保持大小写的实际关键词
+    var regex = new RegExp(foundKeyword, 'i');
+    var actualKeyword = title.match(regex)[0];
+    $('#assistant-tooltips').append(`<span>${actualKeyword} 为不可信的制作组</span><br>`);
+    error = true;
+}
+
+if (foundKeyword1) {
+    // 获取在标题中保持大小写的实际关键词
+    var regex1 = new RegExp(foundKeyword1, 'i');
+    var actualKeyword1 = title.match(regex1)[0];
+    $('#assistant-tooltips').append(`<span>${actualKeyword1} 为不可信的制作组</span><br>`);
+    error = true;
+}
+
     if (error) {
         $('#assistant-tooltips').css('background', 'red');
     } else {
@@ -649,7 +694,7 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
                     // 需要加粗放大的关键词数组
                     var keywords = [
                         "Chinese", "Cantonese", "Mandarin", "Scan type", "Interlaced", "Progressive", "480i","720p", "1080p", "1080i", "2160p","4320p",
-                        "DTS-HD Master Audio","TrueHD Atmos", "Dolby TrueHD/Atmos", "DTS:X", "DTS", "TrueHD", "OPUS", "LPCM", "AAC", "FLAC", "APE", "WAV", "MP3", "M4A","E-AC-3",
+                        "DTS-HD Master Audio","DTS-HD MA","TrueHD Atmos", "Dolby TrueHD/Atmos", "DTS:X", "DTS", "TrueHD", "OPUS", "LPCM", "AAC", "FLAC", "APE", "WAV", "MP3", "M4A","E-AC-3",
                         "Dolby Vision", "HDR10\\+", "HDR10", "HEVC", "x265", "H.265", "AVC", "x264", "H.264", "VC-1", "MPEG-2", "MPEG", "Version 2", "AV1",
                         "简中", "繁中", "简体中文", "繁体中文", "简英", "繁英", "粤语","粤", "国语"
                     ];
@@ -675,48 +720,13 @@ if (title_lowercase.indexOf("4320p") !== -1 || title_lowercase.indexOf("8k") !==
         }
     });
 
-
-    // 不信的制作组关键词数组
-    var untrustworthyKeywords = [
-        "fgt", "hao4k", "mp4ba", "rarbg", "gpthd",
-        "seeweb", "dreamhd", "blacktv", "xiaomi",
-        "huawei", "momohd", "ddhdtv", "nukehd",
-        "tagweb", "sonyhd", "minihd", "bitstv",
-        "-alt", "rarbg", "mp4ba", "fgt", "hao4k",
-        "batweb", "dbd-raws", "xunlei", "gamehd",
-        "zerotv", "lelvetv", "bestweb", "ctrlweb",
-        "enttv", "hottv", "ctrlhd"
-    ];
-
-    // 检查是否包含任何不信的制作组关键词
-    var foundKeyword = untrustworthyKeywords.find(function(keyword) {
-        return title_lowercase.includes(keyword);
-    });
-
-    // 提示信息
-    if (foundKeyword) {
-        // 获取在标题中保持大小写的实际关键词
-        var regex = new RegExp(foundKeyword, 'i');
-        var actualKeyword = title.match(regex)[0];
-        $('#assistant-tooltips').append(`${actualKeyword} 为不可信的制作组<br>`);
-    }
-
- // 查找包含 '其它版本' 的元素
-    var otherCopyContent = document.getElementById('kothercopy');
-    var otherCopyButton = document.querySelector('a[href="javascript: klappe_news(\'othercopy\')"]');
-
-    // 检查内容元素是否存在
-    if (otherCopyContent) {
-        // 确保内容处于隐藏状态
-        otherCopyContent.style.display = 'none';
-
-        // 添加点击事件以确保按钮可以正常折叠/展开内容
-        if (otherCopyButton) {
-            otherCopyButton.addEventListener('click', function() {
-                klappe_news('othercopy');
-            });
-        } else {
-            console.warn('未找到折叠按钮的元素');
+// “其他版本”自动折叠
+    var otherVersions = document.getElementById('kothercopy');
+    if (otherVersions) {
+        if (otherVersions.style.display !== 'none') {
+            klappe_news('othercopy');
         }
+    } else {
+        console.warn('未找到折叠按钮');
     }
 })();
