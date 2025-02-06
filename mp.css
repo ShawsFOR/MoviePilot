@@ -1,5 +1,5 @@
 html {
-    background-image: url(https://s.panlai.com/upload/2023/11/20231108174118169943647862315.jpg-arthumbs);
+    background-image: url(https://img.picgo.net/2024/12/27/W-6872f4846e3b5ab2.jpeg);
     background-attachment: fixed;
     background-size: cover;
     height: 100%;
@@ -9,11 +9,11 @@ body, #app, .v-application {
     height: 100% !important;
     min-height: initial !important;
     background: none !important;
-    backdrop-filter: blur(25px); /* 增加背景模糊效果 */
-    transition: transform 0.5s ease, box-shadow 0.5s ease; /* 设定过渡效果 */
-    box-shadow: 0 0 5px rgba(0,0,0,0.3); /* 添加阴影效果 */
+    backdrop-filter: blur(15px); /* 增加背景模糊效果 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 设定过渡效果 */
+    box-shadow: 0 0 3px rgba(0,0,0,0.2); /* 添加阴影效果 */
     border-radius: 10px; /* 设置圆角 */
-    animation: bodyFadeIn 1s; /* 应用淡入动画 */
+    animation: bodyFadeIn 0.5s; /* 应用淡入动画 */
     font-weight: bold; /* 字体加粗 */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* 文字增加黑色阴影 */
 }
@@ -40,12 +40,6 @@ body, #app, .v-application {
 }
 /* 设置滚动条滑块悬停时的样式 */
 
-/*.v-virtual-scroll {*/
-/*    background: rgba(var(--v-theme-background),0.3);*/
-/*    box-shadow: 0 0 5px rgba(0,0,0,0.3);*/
-/*    border-radius: 10px;*/
-/*}*/
-
 .v-switch__thumb.bg-primary, .v-switch__track.bg-primary, .v-progress-linear__determinate.bg-primary { 
     background-color: #7D34FD !important; /* 修改为你想要的颜色，例如绿色 */ 
 }
@@ -61,7 +55,7 @@ body, #app, .v-application {
 .layout-nav-type-vertical .layout-vertical-nav {
     background: rgba(var(--v-theme-background),0.3);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置垂直导航栏的背景、过渡效果、阴影和圆角 */
@@ -69,7 +63,7 @@ body, #app, .v-application {
 .v-card, .v-field--variant-solo, .v-field--variant-solo-filled, .v-field--variant-solo-inverted {
     background: rgba(var(--v-theme-background),0.3);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
 }
@@ -91,7 +85,7 @@ body, #app, .v-application {
 .v-dialog .v-card {
     background: rgba(var(--v-theme-background),0.5);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置对话框中卡片的样式，包括背景、过渡效果、阴影和圆角 */
@@ -99,7 +93,7 @@ body, #app, .v-application {
 .v-toolbar {
     background: rgba(var(--v-table-header-background),0.3) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置工具栏的背景、过渡效果、阴影和圆角 */
@@ -107,7 +101,7 @@ body, #app, .v-application {
 .v-application .fc {
     background: rgba(var(--v-theme-surface),0.3) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置列表和应用程序表面的背景、过渡效果、阴影和圆角 */
@@ -115,7 +109,7 @@ body, #app, .v-application {
 .v-application .fc .fc-scrollgrid-section-sticky > * {
     background: rgba(var(--v-theme-surface),0.2) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置滚动网格粘性部分的背景、过渡效果、阴影和圆角 */
@@ -123,7 +117,7 @@ body, #app, .v-application {
 .navbar-blur.layout-navbar .navbar-content-container, .v-table {
     background: none !important;
     /* transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; */
-    /* box-shadow: 0 0 5px rgba(0,0,0,0.3); */
+    /* box-shadow: 0 0 3px rgba(0,0,0,0.2); */
     /* border-radius: 10px; */
 }
 /* 设置导航栏和表格的背景、过渡效果、阴影和圆角 */
@@ -131,7 +125,7 @@ body, #app, .v-application {
 .v-data-table th, .v-data-table td {
     background: rgba(var(--v-theme-surface),0.4) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置数据表格单元格的背景、过渡效果、阴影和圆角 */
@@ -139,7 +133,7 @@ body, #app, .v-application {
 .v-skeleton-loader {
     background: rgba(var(--v-theme-surface),0.2) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置骨架加载器的背景、过渡效果、阴影和圆角 */
@@ -147,7 +141,7 @@ body, #app, .v-application {
 .bg-primary {
     background-color: rgba(0, 0, 0, 0.6) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
     border-radius: 10px;
 }
 /* 设置主要背景颜色、过渡效果、阴影和圆角 */
