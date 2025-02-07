@@ -138,6 +138,13 @@ body, #app, .v-application {
 }
 /* 设置骨架加载器的背景、过渡效果、阴影和圆角 */
 
+.v-card.v-theme--purple.v-card--density-default.v-card--variant-elevated {
+    background: rgba(var(--v-theme-background),0.5);
+    /*transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;*/
+    /*box-shadow: 0 0 3px rgba(0,0,0,0.2);*/
+    border-radius: 10px;
+}
+
 .bg-primary {
     background-color: rgba(0, 0, 0, 0.6) !important;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
