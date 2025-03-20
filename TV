@@ -19,4 +19,7 @@ Lupin.S03 => Lupin.S02
 Civil War 2024 USA => 美国内战 (2024)
 #那个男人的记忆法
 Memoirs.of.a.Man => 那个男人的记忆法
+#RL美食的俘虏
+Toriko\.S01E(5[0-9]|9[0-8]) => Toriko.S02E\1 && S02 <> 2011 >> EP-49
+Toriko\.S01E(9[9]|1[0-3][0-9]|14[0-7]) => Toriko.S03E\1 && S03 <> 2011 >> EP-98
 
