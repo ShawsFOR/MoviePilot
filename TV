@@ -22,4 +22,5 @@ Memoirs.of.a.Man => 那个男人的记忆法
 #RL美食的俘虏
 Toriko\.S01E(5[0-9]|9[0-8]) => Toriko.S02E\1 && S02 <> 2011 >> EP-49
 Toriko\.S01E(9[9]|1[0-3][0-9]|14[0-7]) => Toriko.S03E\1 && S03 <> 2011 >> EP-98
-
+#七大罪：默示录的四骑士
+The.Seven.Deadly.Sins.Four.Knights.of.the.Apocalypse.S02(?=.*FROGWeb) => The.Seven.Deadly.Sins.Four.Knights.of.the.Apocalypse.S01 && S01 <> 2023 >> EP+24
