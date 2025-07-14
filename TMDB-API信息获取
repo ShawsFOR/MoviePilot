@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         TMDB API 信息复制工具
+// @name         TMDB-API信息获取
 // @namespace    http://locahost:12280/
 // @version      3.0
 // @description  在 TMDB 页面插入按钮，通过 API 获取信息并复制结果内容到剪贴板
