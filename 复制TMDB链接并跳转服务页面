@@ -1,0 +1,76 @@
+// ==UserScript==
+// @name         复制TMDB链接并跳转
+// @namespace    http://192.168.11.3:12280/
+// @version      2.7
+// @description  在TMDB页面标题上方添加复选框与按钮，复制链接并按需跳转本地服务页面
+// @author       Copilot
+// @match        https://www.themoviedb.org/*/*
+// @grant        none
+// @icon        https://www.themoviedb.org/assets/2/apple-touch-icon-57ed4b3b0450fd5e9a0c20f34e814b82adaa1085c79bdde2f00ca8787b63d2c4.png
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    window.addEventListener('load', () => {
+        const titleContainer = document.querySelector('.title');
+        const titleEl = titleContainer?.querySelector('h2') || document.querySelector('h2[data-testid="hero-title-block__title"]');
+        if (!titleContainer || !titleEl) return;
+
+        const tmdbLink = window.location.href;
+
+        // 创建容器
+        const controlBox = document.createElement('div');
+        controlBox.style.marginBottom = '10px';
+        controlBox.style.display = 'flex';
+        controlBox.style.alignItems = 'center';
+        controlBox.style.gap = '12px';
+
+        // 创建复选框
+        const checkboxLabel = document.createElement('label');
+        checkboxLabel.textContent = '是否打开 tmdbgen';
+        checkboxLabel.style.fontSize = '0.85em';
+        checkboxLabel.style.cursor = 'pointer';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.style.verticalAlign = 'middle';
+        checkbox.style.marginRight = '5px';
+
+        checkboxLabel.prepend(checkbox);
+
+        // 创建按钮
+        const btn = document.createElement('button');
+        btn.textContent = '📋 获取影片信息';
+        Object.assign(btn.style, {
+            padding: '4px 10px',
+            fontSize: '0.85em',
+            backgroundColor: '#01b4e4',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            verticalAlign: 'middle'
+        });
+
+        btn.onclick = () => {
+            navigator.clipboard.writeText(tmdbLink).then(() => {
+                btn.textContent = '✅ 链接已复制';
+                setTimeout(() => {
+                    btn.textContent = '📋 获取影片信息';
+                }, 2000);
+
+                if (checkbox.checked) {
+                    window.open('http://192.168.11.3:12280/', '_blank');
+                }
+            }).catch(() => {
+                btn.textContent = '⚠️ 复制失败';
+            });
+        };
+
+        // 插入元素
+        controlBox.appendChild(btn);
+        controlBox.appendChild(checkboxLabel);
+        titleContainer.parentNode.insertBefore(controlBox, titleContainer);
+    });
+})();
